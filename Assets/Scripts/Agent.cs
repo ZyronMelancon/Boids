@@ -24,11 +24,11 @@ public class Boid : Agent, IMoveable
 {
     public override void Initialize()
     {
-        mass = 5;
-        velocity = new Vector3(Random.Range(-2, 2), Random.Range(-2, 2), Random.Range(-2, 2));
-        acceleration = new Vector3(Random.Range(-2,2), Random.Range(-2, 2), Random.Range(-2, 2));
-        force = new Vector3(Random.Range(-2, 2), Random.Range(-2, 2), Random.Range(-2, 2));
-        max_speed = 50;
+        mass = 1;
+        velocity = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
+        acceleration = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
+        force = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
+        max_speed = 10;
     }
 
     public Vector3 Update_Agent(float dt)
@@ -42,7 +42,7 @@ public class Boid : Agent, IMoveable
     }
     public bool Add_Force(float f, Vector3 dir)
     {
-        velocity += dir * f;
+        force += dir * f;
         return true;
     }
 }

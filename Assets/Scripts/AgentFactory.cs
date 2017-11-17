@@ -8,6 +8,7 @@ public class AgentFactory : MonoBehaviour {
     [SerializeField]
     static List<Agent> agents;
     static List<BoidBehavior> boidObjects;
+    public GameObject boidObject;
 
 	// Use this for initialization
 	void Start ()
@@ -26,12 +27,12 @@ public class AgentFactory : MonoBehaviour {
     {
         for (int i = 0; i < count; i++)
         {
-            var go = new GameObject();
-            var bb = go.AddComponent(typeof(BoidBehavior));
+            var go = Instantiate(boidObject);
+            var bb = go.AddComponent<BoidBehavior>();
             var boid = ScriptableObject.CreateInstance<Boid>();
             boid.Initialize();
-            boid.Position = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
-            bb.GetComponent<BoidBehavior>().SetMoveable(boid);
+            boid.Position = new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), Random.Range(-5, 5));
+            bb.SetMoveable(boid);
             agents.Add(boid);
             boidObjects.Add(bb.GetComponent<BoidBehavior>());
         }

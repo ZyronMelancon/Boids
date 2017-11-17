@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class FlockingBehavior : MonoBehaviour {
 
-    public float kCohesion;
-    public float kDispersion;
-    public float kAlignment;
+    public float kCohesion = 5;
+    public float kDispersion = 5;
+    public float kAlignment = 2;
 
     // Use this for initialization
     void Start () {
@@ -23,11 +23,7 @@ public class FlockingBehavior : MonoBehaviour {
             v2 = Dispersion(i);
             v3 = Alignment(i);
 
-            i.Add_Force(1, v1);
-            i.Add_Force(1, v2);
-            i.Add_Force(1, v3);
-
-            i.Update_Agent(Time.deltaTime);
+            i.Add_Force(1, v1 + v2 + v3);
         }
 
         foreach (BoidBehavior f in GetComponent<AgentFactory>().GetBoidObjects())
@@ -40,7 +36,7 @@ public class FlockingBehavior : MonoBehaviour {
 
         foreach (Boid i in GetComponent<AgentFactory>().GetBoids())
             if (i != b)
-                if (Vector3.Magnitude(i.Position - b.Position) < 100)
+                if (Vector3.Magnitude(i.Position - b.Position) < kDispersion)
                     c = c - (i.Position - b.Position);
         return c;
     }
@@ -53,7 +49,7 @@ public class FlockingBehavior : MonoBehaviour {
 
         pcj = pcj / GetComponent<AgentFactory>().GetBoids().Count;
 
-        return (pcj - b.Position) / 100;
+        return (pcj - b.Position) / kCohesion;
     }
     Vector3 Alignment(Boid b)
     {
@@ -63,8 +59,8 @@ public class FlockingBehavior : MonoBehaviour {
             if (i != b)
                 pv = pv + i.Velocity;
 
-        pv = pv / GetComponent<AgentFactory>().GetBoids().Count;
+        //pv = pv / GetComponent<AgentFactory>().GetBoids().Count;
 
-        return (pv - b.Velocity) / 8;
+        return (pv - b.Velocity) / kAlignment;
     }
 }
